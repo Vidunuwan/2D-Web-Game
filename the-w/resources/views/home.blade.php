@@ -23,3 +23,6 @@
         <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player">
     </div>
 @endsection
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{{ asset('js/game/game.js') }}"></script>
