@@ -39,7 +39,7 @@
     }
 
     .jump-animation {
-        animation: jump 0.7s;
+        animation: jump 1s;
     }
 
     .flipped-right {
