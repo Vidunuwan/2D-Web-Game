@@ -1,23 +1,20 @@
 @extends('layouts.app')
 
+<style>
+    .game-background {
+        background-image: url('{{ asset('images/background-3.jpg') }}');
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 85vh;
+        /* width: 100%; */
+        /* background-attachment: fixed; */
+        background-position: center;
+
+    }
+</style>
+
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('The') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        @include('layouts.game')
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="game-background">
+        ss
     </div>
 @endsection
