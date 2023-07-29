@@ -1,6 +1,8 @@
 $(document).ready(function () {
     //define Player
     var player = $("#player");
+    var isJump = false;
+    var isAttack = false;
     function movePlayer(key, player, left) {
         player.css({
             left: left + "px",
@@ -14,7 +16,7 @@ $(document).ready(function () {
             player.addClass("flipped-left");
         }
     }
-    var isJump = false;
+
     function jump(player) {
         if (!player.hasClass("jump-animation")) {
             player.addClass("jump-animation");
@@ -41,16 +43,17 @@ $(document).ready(function () {
         var currentPosition = parseInt(player.css("left"));
 
         // console.log(event.keyCode);
+        var movementSpeed = 10;
         switch (event.keyCode) {
             case 68:
-                movePlayer(68, player, currentPosition + 10);
-                if (runAnimationInterval == 0) {
+                movePlayer(68, player, currentPosition + movementSpeed);
+                if (runAnimationInterval == 0 && !isAttack) {
                     startRunAnimation();
                 }
                 break;
             case 65:
-                movePlayer(65, player, currentPosition - 10);
-                if (runAnimationInterval == 0) {
+                movePlayer(65, player, currentPosition - movementSpeed);
+                if (runAnimationInterval == 0 && !isAttack) {
                     startRunAnimation();
                 }
                 break;
@@ -73,6 +76,19 @@ $(document).ready(function () {
                     startIdleAnimation();
                 }
                 break;
+            case 74:
+                if (attackAnimationInterval == 0) {
+                    startAttackAnimation();
+                }
+                isAttack = true;
+                setTimeout(() => {
+                    isAttack = false;
+                    stopAttackAnimation();
+                    if (idleAnimationInterval == 0) {
+                        startIdleAnimation();
+                    }
+                }, 500);
+                console.log(isAttack);
         }
     });
 
@@ -107,7 +123,7 @@ $(document).ready(function () {
         }
     }
     function startIdleAnimation() {
-        if (!isJump) {
+        if (!isJump && !isAttack) {
             idleAnimationInterval = setInterval(idleAnimation, 50);
         }
     }
@@ -128,12 +144,36 @@ $(document).ready(function () {
     }
     function startRunAnimation() {
         stopIdleAnimation();
-        if (!isJump) {
-            runAnimationInterval = setInterval(runAnimation, 100);
+        if (!isJump && !isAttack) {
+            runAnimationInterval = setInterval(runAnimation, 80);
         }
     }
     function stopRunAnimation() {
         clearInterval(runAnimationInterval);
         runAnimationInterval = 0;
+    }
+
+    var attackState = 0;
+    var attackAnimationInterval = 0;
+    function attackAnimation() {
+        console.log("Attack");
+        player.attr("src", "images/Player/Attack__00" + attackState + ".png");
+        attackState += 1;
+        if (attackState == 10) {
+            // stopAttackAnimation();
+            attackState = 0;
+        }
+    }
+    function startAttackAnimation() {
+        stopIdleAnimation();
+        stopRunAnimation();
+        if (!isJump) {
+            attackAnimationInterval = setInterval(attackAnimation, 50);
+        }
+    }
+    function stopAttackAnimation() {
+        clearInterval(attackAnimationInterval);
+        attackAnimationInterval = 0;
+        // startIdleAnimation();
     }
 });
