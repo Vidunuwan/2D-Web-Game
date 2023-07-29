@@ -1,7 +1,6 @@
 $(document).ready(function () {
     //define Player
     var player = $("#player");
-
     function movePlayer(key, player, left) {
         player.css({
             left: left + "px",
@@ -28,6 +27,7 @@ $(document).ready(function () {
     }
 
     //Handle Game
+    // startIdleAnimation();
     $(document).on("keydown", function (event) {
         var currentPosition = parseInt(player.css("left"));
 
@@ -48,9 +48,9 @@ $(document).ready(function () {
     //Player Animations
 
     var jumpState = 0;
-    var jumpAnimationNumber = 0;
+    var jumpAnimationInterval = 0;
     function jumpAnimation() {
-        // console.log(jumpState);
+        console.log("jump");
         player.attr("src", "images/Player/jump__00" + jumpState + ".png");
         jumpState += 1;
         if (jumpState == 10) {
@@ -58,17 +58,23 @@ $(document).ready(function () {
         }
     }
     function startJumpAnimation() {
-        clearInterval(idleAnimationNumber);
-        jumpAnimationNumber = setInterval(jumpAnimation, 100);
+        clearInterval(idleAnimationInterval);
+        jumpAnimationInterval = setInterval(jumpAnimation, 100);
     }
 
     var idleState = 0;
-    var idleAnimationNumber = 0;
+    var idleAnimationInterval = 0;
     function idleAnimation() {
+        console.log("idle");
         player.attr("src", "images/Player/idle__00" + idleState + ".png");
+        idleState += 1;
+        if (idleState == 10) {
+            idleState = 0;
+        }
     }
     function startIdleAnimation() {
-        clearInterval(jumpAnimationNumber);
-        idleAnimationNumber = setInterval(idleAnimation, 100);
+        clearInterval(idleAnimationInterval);
+        clearInterval(jumpAnimationInterval);
+        idleAnimationInterval = setInterval(idleAnimation, 50);
     }
 });
