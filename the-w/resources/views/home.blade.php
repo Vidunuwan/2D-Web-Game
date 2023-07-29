@@ -14,12 +14,46 @@
 
     .player {
         height: 130px;
-        margin-top: 53vh
+        top: 53vh;
+        left: 80vh;
+        position: relative;
+        /* animation: jump 1s; */
+    }
+
+    @keyframes jump {
+        0% {
+            top: 53vh
+        }
+
+        30% {
+            top: 40vh
+        }
+
+        70% {
+            top: 40vh
+        }
+
+        100% {
+            top: 53vh;
+        }
+    }
+
+    .jump-animation {
+        animation: jump 0.7s;
+    }
+
+    .flipped-right {
+        transform: scaleX(1);
+    }
+
+    .flipped-left {
+        transform: scaleX(-1);
     }
 </style>
 
 @section('content')
     <div class="game-background">
+        {{-- <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player"> --}}
         <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player">
     </div>
 @endsection
