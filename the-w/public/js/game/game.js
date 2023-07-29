@@ -14,14 +14,23 @@ $(document).ready(function () {
             player.addClass("flipped-left");
         }
     }
-
+    var isJump = false;
     function jump(player) {
         if (!player.hasClass("jump-animation")) {
             player.addClass("jump-animation");
-            startJumpAnimation();
+            stopIdleAnimation();
+            stopRunAnimation();
+            isJump = true;
+            if (jumpAnimationInterval == 0) {
+                startJumpAnimation();
+            }
             setTimeout(function () {
                 player.removeClass("jump-animation");
-                startIdleAnimation();
+                stopJumpAnimation();
+                isJump = false;
+                if (idleAnimationInterval == 0) {
+                    startIdleAnimation();
+                }
             }, 1000);
         }
     }
@@ -35,12 +44,34 @@ $(document).ready(function () {
         switch (event.keyCode) {
             case 68:
                 movePlayer(68, player, currentPosition + 10);
+                if (runAnimationInterval == 0) {
+                    startRunAnimation();
+                }
                 break;
             case 65:
                 movePlayer(65, player, currentPosition - 10);
+                if (runAnimationInterval == 0) {
+                    startRunAnimation();
+                }
                 break;
             case 32:
                 jump(player);
+                break;
+        }
+    });
+    $(document).on("keyup", function (event) {
+        switch (event.keyCode) {
+            case 68:
+                stopRunAnimation();
+                if (idleAnimationInterval == 0) {
+                    startIdleAnimation();
+                }
+                break;
+            case 65:
+                stopRunAnimation();
+                if (idleAnimationInterval == 0) {
+                    startIdleAnimation();
+                }
                 break;
         }
     });
@@ -58,8 +89,11 @@ $(document).ready(function () {
         }
     }
     function startJumpAnimation() {
-        clearInterval(idleAnimationInterval);
         jumpAnimationInterval = setInterval(jumpAnimation, 100);
+    }
+    function stopJumpAnimation() {
+        clearInterval(jumpAnimationInterval);
+        jumpAnimationInterval = 0;
     }
 
     var idleState = 0;
@@ -73,8 +107,33 @@ $(document).ready(function () {
         }
     }
     function startIdleAnimation() {
+        if (!isJump) {
+            idleAnimationInterval = setInterval(idleAnimation, 50);
+        }
+    }
+    function stopIdleAnimation() {
         clearInterval(idleAnimationInterval);
-        clearInterval(jumpAnimationInterval);
-        idleAnimationInterval = setInterval(idleAnimation, 50);
+        idleAnimationInterval = 0;
+    }
+
+    var runState = 0;
+    var runAnimationInterval = 0;
+    function runAnimation() {
+        console.log("run");
+        player.attr("src", "images/Player/run__00" + runState + ".png");
+        runState += 1;
+        if (runState == 10) {
+            runState = 0;
+        }
+    }
+    function startRunAnimation() {
+        stopIdleAnimation();
+        if (!isJump) {
+            runAnimationInterval = setInterval(runAnimation, 100);
+        }
+    }
+    function stopRunAnimation() {
+        clearInterval(runAnimationInterval);
+        runAnimationInterval = 0;
     }
 });
