@@ -11,10 +11,15 @@
         background-position: center;
 
     }
+
+    .player {
+        height: 130px;
+        margin-top: 53vh
+    }
 </style>
 
 @section('content')
     <div class="game-background">
-        ss
+        <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player">
     </div>
 @endsection
