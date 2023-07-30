@@ -3,6 +3,8 @@
 <style>
     .game-background {
         background-image: url('{{ asset('images/background-3.jpg') }}');
+        overflow-x: hidden;
+        /* position: absolute; */
         background-repeat: no-repeat;
         background-size: cover;
         height: 85vh;
@@ -49,12 +51,37 @@
     .flipped-left {
         transform: scaleX(-1);
     }
+
+    .dagger {
+        width: 100px;
+        transform: scaleX(-1);
+        top: 50vh;
+        left: 1500px;
+        position: relative;
+    }
+
+    .dagger-animate {
+        animation: dagger 3s;
+    }
+
+    @keyframes dagger {
+        0% {
+            left: 1500px;
+            /* opacity: 100%; */
+        }
+
+        100% {
+            left: -1200px;
+            /* opacity: 0%; */
+        }
+    }
 </style>
 
 @section('content')
-    <div class="game-background">
+    <div class="game-background" id="game-background">
         {{-- <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player"> --}}
         <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player">
+        {{-- <img src="{{ asset('images/Player/Kunai.png') }}" alt="dagger" class="dagger d-none" id="dagger"> --}}
     </div>
 @endsection
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}

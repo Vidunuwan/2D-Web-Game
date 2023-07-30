@@ -37,6 +37,18 @@ $(document).ready(function () {
         }
     }
 
+    //Create Arrow
+    function createArrow() {
+        var arrow = $("<img>");
+        arrow.addClass("dagger");
+        arrow.attr("src", "images/Player/Kunai.png");
+        $("#game-background").append(arrow);
+        arrow.addClass("dagger-animate");
+        setTimeout(function () {
+            arrow.addClass("d-none");
+        }, 3000);
+    }
+    // createArrow();
     //Handle Game
     // startIdleAnimation();
     $(document).on("keydown", function (event) {
@@ -91,6 +103,47 @@ $(document).ready(function () {
                 console.log(isAttack);
         }
     });
+
+    //create Dagger
+    // var dagger = $("#dagger");
+    // $("#dagger").removeClass("d-none");
+    // $("#dagger").addClass("dagger-animate");
+    // setInterval(function () {
+    //     $("#dagger").removeClass("dagger-animate");
+    //     $("#dagger").addClass("dagger-animate");
+    // }, 3000);
+
+    //Game loop
+
+    // Get the canvas and 2D context
+    var canvas = $("#game-background");
+    console.log(canvas.height);
+    // Function to get a random Y position for the arrow
+    function getRandomYPosition() {
+        return Math.random() * canvas.height;
+    }
+
+    // Function to draw an arrow
+    function drawArrow(x, y) {
+        ctx.fillStyle = "red";
+        ctx.fillRect(x, y, arrowWidth, arrowHeight);
+    }
+
+    // Game loop
+    var i = 0;
+    function gameLoop() {
+        if (i % 500 == 0) {
+            createArrow();
+        }
+        i++;
+        console.log("loop", i);
+
+        // Request the next animation frame
+        requestAnimationFrame(gameLoop);
+    }
+
+    // Start the game loop
+    gameLoop();
 
     //Player Animations
 
