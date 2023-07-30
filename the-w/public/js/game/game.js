@@ -38,17 +38,19 @@ $(document).ready(function () {
     }
 
     //Create Arrow
-    function createArrow() {
+    function createArrow(id) {
         var arrow = $("<img>");
         arrow.addClass("dagger");
         arrow.attr("src", "images/Player/Kunai.png");
+        arrow.attr("id", "arrow-" + id);
         $("#game-background").append(arrow);
         arrow.addClass("dagger-animate");
         setTimeout(function () {
             arrow.addClass("d-none");
         }, 3000);
     }
-    // createArrow();
+    // createArrow(1);
+    // console.log($("#arrow-1").css("left"));
     //Handle Game
     // startIdleAnimation();
     $(document).on("keydown", function (event) {
@@ -113,31 +115,35 @@ $(document).ready(function () {
     //     $("#dagger").addClass("dagger-animate");
     // }, 3000);
 
-    //Game loop
-
-    // Get the canvas and 2D context
-    var canvas = $("#game-background");
-    console.log(canvas.height);
-    // Function to get a random Y position for the arrow
-    function getRandomYPosition() {
-        return Math.random() * canvas.height;
-    }
-
-    // Function to draw an arrow
-    function drawArrow(x, y) {
-        ctx.fillStyle = "red";
-        ctx.fillRect(x, y, arrowWidth, arrowHeight);
-    }
-
     // Game loop
     var i = 0;
+    var id = 0;
     function gameLoop() {
-        if (i % 500 == 0) {
-            createArrow();
+        var playerPosition = parseInt($("#player").css("left"));
+        var playerWidth = parseInt($("#player").css("width"));
+        var playerHeight = parseInt($("#player").css("height"));
+        var playertTop = parseInt($("#player").css("top"));
+        // console.log(playerHeight);
+        if (i % 200 == 0) {
+            id = i;
+            createArrow(i);
         }
         i++;
-        console.log("loop", i);
-
+        // console.log("loop", i);
+        var arrowPossition = parseInt($("#arrow-" + id).css("left"));
+        var arrowTop = parseInt($("#arrow-" + id).css("top"));
+        console.log(arrowTop, playertTop + playerHeight);
+        if (
+            playerPosition - playerWidth >= arrowPossition &&
+            playerPosition - 2 * playerWidth <= arrowPossition &&
+            playertTop + playerHeight >= arrowTop
+        ) {
+            console.log(arrowTop, playertTop + playerHeight);
+            console.log("Death");
+            alert("You are dead");
+            // break;
+        }
+        // console.log();
         // Request the next animation frame
         requestAnimationFrame(gameLoop);
     }
@@ -150,7 +156,7 @@ $(document).ready(function () {
     var jumpState = 0;
     var jumpAnimationInterval = 0;
     function jumpAnimation() {
-        console.log("jump");
+        // console.log("jump");
         player.attr("src", "images/Player/jump__00" + jumpState + ".png");
         jumpState += 1;
         if (jumpState == 10) {
@@ -168,7 +174,7 @@ $(document).ready(function () {
     var idleState = 0;
     var idleAnimationInterval = 0;
     function idleAnimation() {
-        console.log("idle");
+        // console.log("idle");
         player.attr("src", "images/Player/idle__00" + idleState + ".png");
         idleState += 1;
         if (idleState == 10) {
@@ -188,7 +194,7 @@ $(document).ready(function () {
     var runState = 0;
     var runAnimationInterval = 0;
     function runAnimation() {
-        console.log("run");
+        // console.log("run");
         player.attr("src", "images/Player/run__00" + runState + ".png");
         runState += 1;
         if (runState == 10) {
@@ -209,7 +215,7 @@ $(document).ready(function () {
     var attackState = 0;
     var attackAnimationInterval = 0;
     function attackAnimation() {
-        console.log("Attack");
+        // console.log("Attack");
         player.attr("src", "images/Player/Attack__00" + attackState + ".png");
         attackState += 1;
         if (attackState == 10) {

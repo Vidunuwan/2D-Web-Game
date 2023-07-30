@@ -55,13 +55,13 @@
     .dagger {
         width: 100px;
         transform: scaleX(-1);
-        top: 50vh;
+        top: 60vh;
         left: 1500px;
         position: relative;
     }
 
     .dagger-animate {
-        animation: dagger 3s;
+        animation: dagger 5s;
     }
 
     @keyframes dagger {
