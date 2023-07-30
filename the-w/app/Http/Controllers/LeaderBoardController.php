@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class LeaderBoardController extends Controller
 {
     public function show(){
-        return view('leader-board');
+        $leaderBoard=LeaderBoard::join('users','users.id','=','leader_boards.user_id')->limit(10)->orderBy('score')->get();
+        // dd($leaderBoard);
+        return view('leader-board',compact('leaderBoard'));
     }
     public function update(){
         $score=request('score');

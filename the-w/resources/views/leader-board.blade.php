@@ -7,30 +7,29 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Player Name</th>
+                    {{-- <th scope="col">Played Time</th> --}}
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                @php
+                    $i = 0;
+                @endphp
+                @foreach ($leaderBoard as $score)
+                    @php
+                        $i++;
+                        // $date = Carbon\Carbon::parse($score->created_at);
+                        // $date->setTimezone('Asia/Kolkata');
+                        // $date = $date->format('Y-m-d');
+                    @endphp
+                    <tr>
+                        <th scope="row">{{ $i }}</th>
+                        <td>{{ $score->score }}</td>
+                        <td>{{ $score->name }}</td>
+                        {{-- <td>{{ $date }}</td> --}}
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
