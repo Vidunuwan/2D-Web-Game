@@ -118,8 +118,9 @@ $(document).ready(function () {
     // Game loop
     var i = 0;
     var id = 0;
+    var score = 0;
     function gameLoop() {
-        $("#score-board").text("Score: " + i);
+        $("#score-board").text("Score: " + score);
         var playerPosition = parseInt($("#player").css("left"));
         var playerWidth = parseInt($("#player").css("width"));
         var playerHeight = parseInt($("#player").css("height"));
@@ -128,6 +129,7 @@ $(document).ready(function () {
         if (i % 200 == 0) {
             id = i;
             createArrow(i);
+            score += 1;
         }
         i++;
         // console.log("loop", i);
@@ -139,35 +141,59 @@ $(document).ready(function () {
             playerPosition - 2 * playerWidth <= arrowPossition &&
             playertTop + playerHeight >= arrowTop
         ) {
-            // console.log(arrowTop, playertTop + playerHeight);
-            console.log("Death");
-            // alert("You are dead");
-            // break;
-            Swal.fire({
-                title: "Game Over",
-                text: "Better luck next time",
-                icon: "warning",
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText: "Restart",
-                cancelButtonText: "Cancel",
-                customClass: {
-                    confirmButton: "btn btn-primary mr-3",
-                    cancelButton: "btn btn-secondary",
-                },
-                showClass: {
-                    popup: "swal2-noanimation",
-                    backdrop: "swal2-noanimation",
-                },
-                buttonsStyling: false,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    console.log("ss");
-                }
-            });
-            return;
+            if (isAttack) {
+                score += 100;
+                $("#arrow-" + id).addClass("d-none");
+            } else {
+                console.log("Death");
+                Swal.fire({
+                    title: "Game Over",
+                    text: "Your Score" + score,
+                    icon: "warning",
+                    showCancelButton: true,
+                    focusConfirm: true,
+                    confirmButtonText: "View Leader Board",
+                    cancelButtonText: "Restart",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-secondary ms-3",
+                    },
+                    showClass: {
+                        popup: "swal2-noanimation",
+                        backdrop: "swal2-noanimation",
+                    },
+                    buttonsStyling: false,
+                }).then((result) => {
+                    console.log(result);
+                    if (result.isConfirmed) {
+                        console.log("Leader board");
+                        $.ajax({
+                            url: "leader-board/update",
+                            type: "GET",
+                            data: {
+                                score: score,
+                            },
+                            success: function (responce) {
+                                window.location.href = "/leader-board";
+                            },
+                        });
+                    }
+                    if (result.isDismissed) {
+                        $.ajax({
+                            url: "leader-board/update",
+                            type: "GET",
+                            data: {
+                                score: score,
+                            },
+                            success: function (responce) {
+                                window.location.reload();
+                            },
+                        });
+                    }
+                });
+                return;
+            }
         }
-        // console.log();
         // Request the next animation frame
         requestAnimationFrame(gameLoop);
     }

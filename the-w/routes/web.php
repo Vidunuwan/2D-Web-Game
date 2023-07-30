@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LeaderBoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('leader-board',[LeaderBoardController::class,'show'])->name('leader-board.show');
+Route::get('leader-board/update',[LeaderBoardController::class,'update'])->name('leader-board.update');
