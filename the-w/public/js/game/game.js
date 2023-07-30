@@ -119,6 +119,7 @@ $(document).ready(function () {
     var i = 0;
     var id = 0;
     function gameLoop() {
+        $("#score-board").text("Score: " + i);
         var playerPosition = parseInt($("#player").css("left"));
         var playerWidth = parseInt($("#player").css("width"));
         var playerHeight = parseInt($("#player").css("height"));
@@ -132,16 +133,39 @@ $(document).ready(function () {
         // console.log("loop", i);
         var arrowPossition = parseInt($("#arrow-" + id).css("left"));
         var arrowTop = parseInt($("#arrow-" + id).css("top"));
-        console.log(arrowTop, playertTop + playerHeight);
+        // console.log(arrowTop, playertTop + playerHeight);
         if (
             playerPosition - playerWidth >= arrowPossition &&
             playerPosition - 2 * playerWidth <= arrowPossition &&
             playertTop + playerHeight >= arrowTop
         ) {
-            console.log(arrowTop, playertTop + playerHeight);
+            // console.log(arrowTop, playertTop + playerHeight);
             console.log("Death");
-            alert("You are dead");
+            // alert("You are dead");
             // break;
+            Swal.fire({
+                title: "Game Over",
+                text: "Better luck next time",
+                icon: "warning",
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: "Restart",
+                cancelButtonText: "Cancel",
+                customClass: {
+                    confirmButton: "btn btn-primary mr-3",
+                    cancelButton: "btn btn-secondary",
+                },
+                showClass: {
+                    popup: "swal2-noanimation",
+                    backdrop: "swal2-noanimation",
+                },
+                buttonsStyling: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log("ss");
+                }
+            });
+            return;
         }
         // console.log();
         // Request the next animation frame
