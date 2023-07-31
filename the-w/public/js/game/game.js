@@ -6,7 +6,7 @@ $(document).ready(function () {
     function movePlayer(key, player, left) {
         player.css({
             left: left + "px",
-            position: "relative",
+            position: "absolute",
         });
         if (key == 68) {
             player.removeClass("flipped-left");
@@ -43,6 +43,9 @@ $(document).ready(function () {
         arrow.addClass("dagger");
         arrow.attr("src", "images/Player/Kunai.png");
         arrow.attr("id", "arrow-" + id);
+        arrow.css({
+            top: Math.floor(Math.random() * 200) + 400 + "px",
+        });
         $("#game-background").append(arrow);
         arrow.addClass("dagger-animate");
         setTimeout(function () {
@@ -106,15 +109,6 @@ $(document).ready(function () {
         }
     });
 
-    //create Dagger
-    // var dagger = $("#dagger");
-    // $("#dagger").removeClass("d-none");
-    // $("#dagger").addClass("dagger-animate");
-    // setInterval(function () {
-    //     $("#dagger").removeClass("dagger-animate");
-    //     $("#dagger").addClass("dagger-animate");
-    // }, 3000);
-
     // Game loop
     var i = 0;
     var id = 0;
@@ -125,7 +119,7 @@ $(document).ready(function () {
         var playerWidth = parseInt($("#player").css("width"));
         var playerHeight = parseInt($("#player").css("height"));
         var playertTop = parseInt($("#player").css("top"));
-        // console.log(playerHeight);
+        // console.log(playertTop);
         if (i % 200 == 0) {
             id = i;
             createArrow(i);
@@ -135,10 +129,12 @@ $(document).ready(function () {
         // console.log("loop", i);
         var arrowPossition = parseInt($("#arrow-" + id).css("left"));
         var arrowTop = parseInt($("#arrow-" + id).css("top"));
-        // console.log(arrowTop, playertTop + playerHeight);
+        // console.log("Arrow=" + arrowTop, playertTop);
+        // $("#score-board").text("Arrow=" + arrowTop + " " + playertTop);
         if (
             playerPosition - playerWidth >= arrowPossition &&
             playerPosition - 2 * playerWidth <= arrowPossition &&
+            playertTop <= arrowTop &&
             playertTop + playerHeight >= arrowTop
         ) {
             if (isAttack) {
@@ -148,7 +144,7 @@ $(document).ready(function () {
                 console.log("Death");
                 Swal.fire({
                     title: "Game Over",
-                    text: "Your Score" + score,
+                    text: "Your Score " + score,
                     icon: "warning",
                     showCancelButton: true,
                     focusConfirm: true,

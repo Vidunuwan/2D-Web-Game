@@ -13,11 +13,24 @@ class LeaderBoardController extends Controller
         return view('leader-board',compact('leaderBoard'));
     }
     public function update(){
+        $leaderBoard=LeaderBoard::all();
         $score=request('score');
-        $recoed=new LeaderBoard();
-        $recoed->user_id=Auth::user()->id;
-        $recoed->score=$score;
-        $recoed->save();
+        if($leaderBoard->count()<10){
+            $recoed=new LeaderBoard();
+            $recoed->user_id=Auth::user()->id;
+            $recoed->score=$score;
+            $recoed->save();
+        }else{
+            $topScore=LeaderBoard::select('id','score')->orderBy('score')->orderBy('created_at')->first();
+            if($score>$topScore->score){
+                $newScore=LeaderBoard::findOrFail($topScore->id);
+                $newScore->score=$score;
+                $newScore->created_at=now();
+                $newScore->save();
+            }
+
+        }
+
 
         return response()->json(['success'=>true]);
     }

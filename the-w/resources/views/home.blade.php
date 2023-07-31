@@ -19,27 +19,35 @@
 
     .player {
         height: 130px;
-        top: 53vh;
-        left: 80vh;
-        position: relative;
+        top: 450px;
+        left: 500px;
+        position: absolute;
         /* animation: jump 1s; */
+    }
+
+    .dagger {
+        height: 15px;
+        transform: scaleX(-1);
+        /* top: 450px; */
+        left: 1500px;
+        position: absolute;
     }
 
     @keyframes jump {
         0% {
-            top: 53vh
+            top: 450px
         }
 
         30% {
-            top: 38vh
+            top: 350px
         }
 
         70% {
-            top: 38vh
+            top: 350px
         }
 
         100% {
-            top: 53vh;
+            top: 450px;
         }
     }
 
@@ -55,21 +63,13 @@
         transform: scaleX(-1);
     }
 
-    .dagger {
-        width: 100px;
-        transform: scaleX(-1);
-        top: 60vh;
-        left: 1500px;
-        position: relative;
-    }
-
     .dagger-animate {
         animation: dagger 5s;
     }
 
     @keyframes dagger {
         0% {
-            left: 1500px;
+            left: 1450px;
             /* opacity: 100%; */
         }
 
@@ -85,6 +85,15 @@
         margin: auto;
         position: relative;
     }
+
+    /* .test {
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        position: relative;
+        top: 330px;
+        left: 570px;
+    } */
 </style>
 
 @section('content')
@@ -92,9 +101,12 @@
         <div id="score" class="score">
             <h5 id="score-board"></h5>
         </div>
+        {{-- <div class="test">
+
+        </div> --}}
         {{-- <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player"> --}}
         <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player">
-        {{-- <img src="{{ asset('images/Player/Kunai.png') }}" alt="dagger" class="dagger d-none" id="dagger"> --}}
+        {{-- <img src="{{ asset('images/Player/Kunai.png') }}" alt="dagger" class="dagger" id="dagger"> --}}
     </div>
 @endsection
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
