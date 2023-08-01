@@ -3,6 +3,7 @@
 <style>
     .game-background {
         /* margin-top: 0px; */
+        /* height: 100%; */
         background-image: url('{{ asset('images/background-3.jpg') }}');
         overflow-x: hidden;
         overflow-y: hidden;
@@ -25,13 +26,13 @@
         /* animation: jump 1s; */
     }
 
-    .dagger {
+    /* .dagger {
         height: 15px;
         transform: scaleX(-1);
-        /* top: 450px; */
+        top: 450px;
         left: 1500px;
-        position: absolute;
-    }
+         position: absolute;
+    } */
 
     @keyframes jump {
         0% {
@@ -63,11 +64,15 @@
         transform: scaleX(-1);
     }
 
-    .dagger-animate {
-        animation: dagger 5s;
+    .dagger-x-animate {
+        animation: daggerX 5s;
     }
 
-    @keyframes dagger {
+    .dagger-y-animate {
+        animation: daggerY 3s;
+    }
+
+    @keyframes daggerX {
         0% {
             left: 1450px;
             /* opacity: 100%; */
@@ -75,6 +80,18 @@
 
         100% {
             left: -1200px;
+            /* opacity: 0%; */
+        }
+    }
+
+    @keyframes daggerY {
+        0% {
+            top: 130px;
+            /* opacity: 100%; */
+        }
+
+        100% {
+            top: 650px;
             /* opacity: 0%; */
         }
     }

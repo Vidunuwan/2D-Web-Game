@@ -4,6 +4,10 @@ $(document).ready(function () {
     var isJump = false;
     var isAttack = false;
     function movePlayer(key, player, left) {
+        if (left > 1445 || left < 0) {
+            return;
+        }
+        // console.log(left);
         player.css({
             left: left + "px",
             position: "absolute",
@@ -38,22 +42,61 @@ $(document).ready(function () {
     }
 
     //Create Arrow
-    function createArrow(id) {
+    function createArrow(id, position, arrows) {
         var arrow = $("<img>");
-        arrow.addClass("dagger");
+        var xyRange = 0;
+        var xyPosition = 0;
+
         arrow.attr("src", "images/Player/Kunai.png");
+        // arrow.addClass("dagger");
         arrow.attr("id", "arrow-" + id);
-        arrow.css({
-            top: Math.floor(Math.random() * 200) + 400 + "px",
-        });
-        $("#game-background").append(arrow);
-        arrow.addClass("dagger-animate");
+        if (position == "x") {
+            rotate = 180;
+            xyRange = 130;
+            xyPosition = 450;
+            arrow.css({
+                left: "1500px",
+                height: "15px",
+                position: "absolute",
+                top: Math.floor(Math.random() * xyRange) + xyPosition + "px",
+                transform: "rotate(" + rotate + "deg)",
+            });
+            $("#game-background").append(arrow);
+            arrow.addClass("dagger-x-animate");
+        } else {
+            rotate = 90;
+            xyRange = 1445;
+            xyPosition = 0;
+            arrow.css({
+                left: Math.floor(Math.random() * xyRange) + xyPosition + "px",
+                transform: "rotate(" + rotate + "deg)",
+            });
+            $("#game-background").append(arrow);
+            arrow.addClass("dagger-y-animate");
+        }
+        arrows.push("arrow-" + id);
         setTimeout(function () {
-            arrow.addClass("d-none");
-        }, 3000);
+            arrows.pop("arrow-" + id);
+            // arrow.remove();
+        }, 2000);
+        // console.log(arrow.hasClass("dagger-x-animate"));
+        // $("#game-background").removeAttr("<img>");
+
+        return "arrow-" + id;
     }
-    // createArrow(1);
-    // console.log($("#arrow-1").css("left"));
+
+    function destroyeArrow(arrow, xy) {
+        if (xy == "x") {
+            if (parseInt(arrow.css("left")) <= 300) {
+                arrow.addClass("d-none");
+            }
+        } else {
+            if (parseInt(arrow.css("top")) >= 650) {
+                arrow.addClass("d-none");
+            }
+        }
+    }
+
     //Handle Game
     // startIdleAnimation();
     $(document).on("keydown", function (event) {
@@ -112,30 +155,46 @@ $(document).ready(function () {
     // Game loop
     var i = 0;
     var id = 0;
+    var arrowID = "";
     var score = 0;
+    let arrows = [];
+    let death = false;
     function gameLoop() {
+        if (death) {
+            return;
+        }
+        // console.log(arrows);
         $("#score-board").text("Score: " + score);
-        var playerPosition = parseInt($("#player").css("left"));
+        var playerXValue = parseInt($("#player").css("left"));
         var playerWidth = parseInt($("#player").css("width"));
         var playerHeight = parseInt($("#player").css("height"));
-        var playertTop = parseInt($("#player").css("top"));
+        var playerYValue = parseInt($("#player").css("top"));
         // console.log(playertTop);
-        if (i % 200 == 0) {
-            id = i;
-            createArrow(i);
-            score += 1;
+        if (i % 300 == 0) {
+            id += 1;
+            // arrows.push(createArrow(id, "x", arrows));
+            // score += 1;
+            arrowID = createArrow(id, "x", arrows);
+            score = arrows.length;
         }
         i++;
-        // console.log("loop", i);
-        var arrowPossition = parseInt($("#arrow-" + id).css("left"));
-        var arrowTop = parseInt($("#arrow-" + id).css("top"));
-        // console.log("Arrow=" + arrowTop, playertTop);
-        // $("#score-board").text("Arrow=" + arrowTop + " " + playertTop);
+        console.log(arrowID);
+        // arrows.forEach((arrow) => {
+        var arrowXValue = parseInt($("#" + arrowID).css("left"));
+        var arrowYValue = parseInt($("#" + arrowID).css("top"));
+        // console.log("arrows " + arrowXValue);
+        // if (arrowXValue < 100) {
+        //     console.log("destroyee");
+        //     // arrow.addClass("d-none");
+        //     arrow.remove();
+        //     arrows.pop(arrow);
+        // }
+
         if (
-            playerPosition - playerWidth >= arrowPossition &&
-            playerPosition - 2 * playerWidth <= arrowPossition &&
-            playertTop <= arrowTop &&
-            playertTop + playerHeight >= arrowTop
+            playerXValue - playerWidth >= arrowXValue &&
+            playerXValue - 2 * playerWidth <= arrowXValue &&
+            playerYValue <= arrowYValue &&
+            playerYValue + playerHeight >= arrowYValue
         ) {
             if (isAttack) {
                 score += 100;
@@ -187,9 +246,10 @@ $(document).ready(function () {
                         });
                     }
                 });
-                return;
+                death = true;
             }
         }
+        // });
         // Request the next animation frame
         requestAnimationFrame(gameLoop);
     }
