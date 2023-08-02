@@ -41,6 +41,49 @@ $(document).ready(function () {
         }
     }
 
+    function createDagger(id, position, daggers) {
+        var dagger = $("<img>");
+        var xyRange = 0;
+        var xyPosition = 0;
+
+        dagger.attr("src", "images/Player/Kunai.png");
+        // arrow.addClass("dagger");
+        dagger.attr("id", "arrow-" + id);
+        if (position == "x") {
+            rotate = 180;
+            xyRange = 130;
+            xyPosition = 450;
+            dagger.css({
+                left: "1500px",
+                height: "15px",
+                position: "absolute",
+                top: Math.floor(Math.random() * xyRange) + xyPosition + "px",
+                transform: "rotate(" + rotate + "deg)",
+            });
+            $("#game-background").append(dagger);
+        } else {
+            rotate = 90;
+            xyRange = 1445;
+            xyPosition = 0;
+            dagger.css({
+                height: "15px",
+                position: "absolute",
+                left: Math.floor(Math.random() * xyRange) + xyPosition + "px",
+                transform: "rotate(" + rotate + "deg)",
+            });
+            $("#game-background").append(dagger);
+        }
+        daggers.push("arrow-" + id);
+        setTimeout(function () {
+            daggers.pop("arrow-" + id);
+            // arrow.remove();
+        }, 2000);
+        // console.log(arrow.hasClass("dagger-x-animate"));
+        // $("#game-background").removeAttr("<img>");
+
+        return "arrow-" + id;
+    }
+
     //Create Arrow
     function createArrow(id, position, arrows) {
         var arrow = $("<img>");
@@ -55,7 +98,7 @@ $(document).ready(function () {
             xyRange = 130;
             xyPosition = 450;
             arrow.css({
-                left: "1500px",
+                // left: "1500px",
                 height: "15px",
                 position: "absolute",
                 top: Math.floor(Math.random() * xyRange) + xyPosition + "px",
@@ -68,6 +111,8 @@ $(document).ready(function () {
             xyRange = 1445;
             xyPosition = 0;
             arrow.css({
+                height: "15px",
+                position: "absolute",
                 left: Math.floor(Math.random() * xyRange) + xyPosition + "px",
                 transform: "rotate(" + rotate + "deg)",
             });
@@ -77,7 +122,7 @@ $(document).ready(function () {
         arrows.push("arrow-" + id);
         setTimeout(function () {
             arrows.pop("arrow-" + id);
-            // arrow.remove();
+            arrow.remove();
         }, 2000);
         // console.log(arrow.hasClass("dagger-x-animate"));
         // $("#game-background").removeAttr("<img>");
@@ -94,6 +139,18 @@ $(document).ready(function () {
             if (parseInt(arrow.css("top")) >= 650) {
                 arrow.addClass("d-none");
             }
+        }
+    }
+
+    function handleLevels(score) {
+        if (score > 500) {
+            return 2;
+        } else if (score > 1000) {
+            return 3;
+        } else if (score > 1500) {
+            return 4;
+        } else {
+            return 1;
         }
     }
 
@@ -157,8 +214,9 @@ $(document).ready(function () {
     var id = 0;
     var arrowID = "";
     var score = 0;
-    let arrows = [];
-    let death = false;
+    var arrows = [];
+    var death = false;
+    var gameDefeculty = 400;
     function gameLoop() {
         if (death) {
             return;
@@ -169,13 +227,13 @@ $(document).ready(function () {
         var playerWidth = parseInt($("#player").css("width"));
         var playerHeight = parseInt($("#player").css("height"));
         var playerYValue = parseInt($("#player").css("top"));
-        // console.log(playertTop);
-        if (i % 300 == 0) {
+        // console.log(handleLevels(score));
+        if (i % (gameDefeculty / handleLevels(score)) == 0) {
             id += 1;
             // arrows.push(createArrow(id, "x", arrows));
             // score += 1;
             arrowID = createArrow(id, "x", arrows);
-            score = arrows.length;
+            score += handleLevels(score);
         }
         i++;
         console.log(arrowID);
