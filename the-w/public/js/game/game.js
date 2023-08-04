@@ -313,7 +313,17 @@ $(document).ready(function () {
     }
 
     // Start the game loop
-    gameLoop();
+    // gameLoop();
+
+    var isPressEnter = false;
+    $("body").on("keydown", function (event) {
+        console.log(event.which);
+        if (!isPressEnter && event.which == 13) {
+            $("#game-start-text").remove();
+            gameLoop();
+            isPressEnter = true;
+        }
+    });
 
     //Player Animations
 

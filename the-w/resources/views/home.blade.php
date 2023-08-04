@@ -111,6 +111,20 @@
         top: 330px;
         left: 570px;
     } */
+    .game-start-text {
+        /* position: absolute; */
+        text-align: center;
+        /* display: flex; */
+        /* align-items: center; */
+        /* vertical-align: middle; */
+        /* margin-top: 250px; */
+        /* display: grid; */
+        /* place-items: center; */
+        margin-top: 250px;
+        color: darkorange;
+        font-weight: inherit;
+        /* left: 50%; */
+    }
 </style>
 
 @section('content')
@@ -121,6 +135,10 @@
         {{-- <div class="test">
 
         </div> --}}
+        <div id="game-start-text" class="game-start-text">
+            <h1>Press Enter To Start</h1>
+            <b style="color: red;">Press "J" to Attack</b>
+        </div>
         {{-- <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player"> --}}
         <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player">
         {{-- <img src="{{ asset('images/Player/Kunai.png') }}" alt="dagger" class="dagger" id="dagger"> --}}
