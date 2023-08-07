@@ -1,7 +1,14 @@
 @extends('layouts.app')
 
 <style>
+    @font-face {
+        font-family: 'Chango-Regular';
+        src: url('{{ asset('fonts/Chango-Regular.ttf') }}') format('woff2')
+    }
+
+
     .game-background {
+        font-family: 'Chango-Regular';
         /* margin-top: 0px; */
         /* height: 100%; */
         background-image: url('{{ asset('images/background-3.jpg') }}');
