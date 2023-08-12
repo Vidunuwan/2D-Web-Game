@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
 <style>
+    @font-face {
+        font-family: 'Chango-Regular';
+        src: url('{{ asset('fonts/Chango-Regular.ttf') }}') format('woff2')
+    }
+
+
     .game-background {
+        font-family: 'Chango-Regular';
         /* margin-top: 0px; */
+        /* height: 100%; */
         background-image: url('{{ asset('images/background-3.jpg') }}');
         overflow-x: hidden;
         overflow-y: hidden;
@@ -19,27 +27,35 @@
 
     .player {
         height: 130px;
-        top: 53vh;
-        left: 80vh;
-        position: relative;
+        top: 450px;
+        left: 500px;
+        position: absolute;
         /* animation: jump 1s; */
     }
 
+    /* .dagger {
+        height: 15px;
+        transform: scaleX(-1);
+        top: 450px;
+        left: 1500px;
+         position: absolute;
+    } */
+
     @keyframes jump {
         0% {
-            top: 53vh
+            top: 450px
         }
 
         30% {
-            top: 38vh
+            top: 350px
         }
 
         70% {
-            top: 38vh
+            top: 350px
         }
 
         100% {
-            top: 53vh;
+            top: 450px;
         }
     }
 
@@ -55,26 +71,34 @@
         transform: scaleX(-1);
     }
 
-    .dagger {
-        width: 100px;
-        transform: scaleX(-1);
-        top: 60vh;
-        left: 1500px;
-        position: relative;
+    .dagger-x-animate {
+        animation: daggerX 5s;
     }
 
-    .dagger-animate {
-        animation: dagger 5s;
+    .dagger-y-animate {
+        animation: daggerY 3s;
     }
 
-    @keyframes dagger {
+    @keyframes daggerX {
         0% {
-            left: 1500px;
+            left: 1450px;
             /* opacity: 100%; */
         }
 
         100% {
             left: -1200px;
+            /* opacity: 0%; */
+        }
+    }
+
+    @keyframes daggerY {
+        0% {
+            top: 130px;
+            /* opacity: 100%; */
+        }
+
+        100% {
+            top: 650px;
             /* opacity: 0%; */
         }
     }
@@ -85,6 +109,29 @@
         margin: auto;
         position: relative;
     }
+
+    /* .test {
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        position: relative;
+        top: 330px;
+        left: 570px;
+    } */
+    .game-start-text {
+        /* position: absolute; */
+        text-align: center;
+        /* display: flex; */
+        /* align-items: center; */
+        /* vertical-align: middle; */
+        /* margin-top: 250px; */
+        /* display: grid; */
+        /* place-items: center; */
+        margin-top: 250px;
+        color: darkorange;
+        font-weight: inherit;
+        /* left: 50%; */
+    }
 </style>
 
 @section('content')
@@ -92,9 +139,16 @@
         <div id="score" class="score">
             <h5 id="score-board"></h5>
         </div>
+        {{-- <div class="test">
+
+        </div> --}}
+        <div id="game-start-text" class="game-start-text">
+            <h1>Press Enter To Start</h1>
+            <b style="color: red;">Press "J" to Attack</b>
+        </div>
         {{-- <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player"> --}}
         <img src="{{ asset('images/Player/Idle__000.png') }}" alt="Player" class="player" id="player">
-        {{-- <img src="{{ asset('images/Player/Kunai.png') }}" alt="dagger" class="dagger d-none" id="dagger"> --}}
+        {{-- <img src="{{ asset('images/Player/Kunai.png') }}" alt="dagger" class="dagger" id="dagger"> --}}
     </div>
 @endsection
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
